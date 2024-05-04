@@ -19,7 +19,8 @@ class Menu:
         print('Поиск по:')
         print('1. Дате\n'
               '2. Категории\n'
-              '3. Сумме')
+              '3. Сумме\n'
+              '4. Описание')
 
     @staticmethod
     def change_transaction_menu() -> None:

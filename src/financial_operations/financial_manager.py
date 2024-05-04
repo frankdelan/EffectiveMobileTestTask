@@ -55,8 +55,8 @@ class FinancialManager:
         Статический метод для поиска транзакции по параметру.
         Возвращает None.
         """
-        if field_id in [1, 2, 3]:
-            return TransactionHandler.create_search_form(field_id - 1)
+        if field_id in [1, 2, 3, 4]:
+            return TransactionHandler.collect_search_data(field_id - 1)
         else:
-            print("Некорректный выбор. Пожалуйста, выберите 1, 2 или 3.")
+            print("Некорректный выбор. Пожалуйста, выберите 1, 2, 3 или 4")
             return

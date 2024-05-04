@@ -5,21 +5,62 @@ from src.interface.menus import Menu
 from src.utils.decorators import choice_decorator
 
 
-class TransactionHandler:
+class TransactionInputValidator:
     @staticmethod
-    def get_money_count() -> None | int:
+    def validate_date_format(date_string: str) -> str | None:
+        """
+        Статический метод для проверки корректного ввода даты.
+        Возвращает None или str
+        """
+        try:
+            datetime.strptime(date_string, '%Y-%m-%d')
+            return date_string
+        except ValueError:
+            print('Некорректный формат даты.')
+            return
+
+    @staticmethod
+    def validate_category(category: str) -> str | None:
+        """
+        Статический метод для проверки корректного ввода категории.
+        Возвращает None или str
+        """
+        if category == 'Доход' or category == 'Расход':
+            return category
+        else:
+            print('Неизвестная категория.')
+            return
+
+    @staticmethod
+    def validate_summary(cash: str) -> str | None:
+        """
+        Статический метод для проверки корректного ввода суммы.
+        Возвращает None или int
+        """
+        try:
+            int(cash)
+            return cash
+        except ValueError:
+            print('Некорректный ввод суммы.')
+            return
+
+
+class TransactionHandler:
+    field_validators = {
+        0: TransactionInputValidator.validate_date_format,
+        1: TransactionInputValidator.validate_category,
+        2: TransactionInputValidator.validate_summary,
+        3: lambda x: x
+    }
+
+    @staticmethod
+    @choice_decorator(lambda: print('Введите сумму денег:'))
+    def get_money_count(cash: int) -> None | int:
         """
         Статический метод для получения суммы денег при создании транзакции.
         Возвращает None или int
         """
-        print('Введите сумму денег:')
-        try:
-            cash: int = int(input())
-        except ValueError:
-            print('Некорректный ввод.')
-            return
-        else:
-            return cash
+        return cash
 
     @staticmethod
     def get_description() -> str:
@@ -49,7 +90,7 @@ class TransactionHandler:
         print('Транзакция успешно создана!')
 
     @staticmethod
-    def create_search_form(field: int) -> None:
+    def collect_search_data(field: int) -> None:
         """
         Статический метод для получения данных по транзакции для поиска.
         Возвращает None.
@@ -74,7 +115,6 @@ class TransactionHandler:
         """
         offset: int = 0
         limit: int = 3
-        0 - 3 / 3 - 6 / 6 - 9 / 9 - 12
         transactions_list: list = CSVController.get_all_transactions()
         while (offset + limit) < len(transactions_list) + limit:
             if transactions_list:
@@ -92,18 +132,25 @@ class TransactionHandler:
     @staticmethod
     def get_new_info(row_number: int, field_number: int) -> None:
         """
-        Статический метод для получения новых данных при изменении транзакции.
+        Статический метод для получения и проверки новых данных при изменении транзакции.
         Возвращает None.
         """
         print('Введите новые данные')
         Menu.transaction_data_formats()
         new_data: str = input()
-        try:
-            CSVController.update_csv_cell(row_number, field_number, new_data)
-        except Exception as e:
-            print(f'Произошла ошибка - {e}')
+
+        validator = TransactionHandler.field_validators.get(field_number)
+        valid_data = validator(new_data)
+
+        if valid_data:
+            try:
+                CSVController.update_csv_cell(row_number, field_number, valid_data)
+            except Exception as e:
+                print(f'Произошла ошибка - {e}')
+            else:
+                print('Запись успешна изменена!')
         else:
-            print('Запись успешна изменена!')
+            return
 
     @staticmethod
     @choice_decorator(Menu.change_transaction_menu)
