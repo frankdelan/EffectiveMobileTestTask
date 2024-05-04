@@ -1,35 +1,36 @@
 import csv
 
-FILEPATH: str = 'src/history.csv'
+# working directory - /src/
+FILEPATH: str = 'history.csv'
 
 
 class CSVController:
     @staticmethod
-    def get_user_balance() -> float:
+    def get_user_balance() -> int:
         """
         Статический метод для расчета и возврата баланса пользователя.
         Возвращает число с плавающей запятой, представляющее баланс пользователя.
         """
         with open(FILEPATH, 'r', newline='', encoding='utf-8') as csvfile:
             csv_reader = csv.reader(csvfile)
-            balance: float = 0
+            balance: int = 0
 
             for row in csv_reader:
                 if row[1] == 'Доход':
-                    balance += float(row[2])
+                    balance += int(row[2])
                 else:
-                    balance -= float(row[2])
+                    balance -= int(row[2])
             return balance
 
     @staticmethod
-    def search_info(field: int, data: str) -> list:
+    def search_info(field: int, data: str) -> list[str]:
         """
         Статический метод для поиска транзакций по параметру.
         Возвращает список с данными о транзакциях либо пустой список.
         """
         with open(FILEPATH, 'r', newline='', encoding='utf-8') as csvfile:
             csv_reader = csv.reader(csvfile)
-            transactions: list = []
+            transactions: list[str] = []
 
             for idx, row in enumerate(csv_reader):
                 if row[field] == data or data in row[field]:
@@ -63,13 +64,13 @@ class CSVController:
             csv_writer.writerows(rows)
 
     @staticmethod
-    def get_all_transactions() -> list:
+    def get_all_transactions() -> list[str]:
         """
         Статический метод, возвращающий список со всеми транзакциями.
         """
         with open(FILEPATH, 'r', newline='', encoding='utf-8') as csvfile:
             csv_reader = csv.reader(csvfile)
-            transactions: list = []
+            transactions: list[str] = []
 
             for idx, row in enumerate(csv_reader):
                 transactions.append([f'{idx}'] + row)

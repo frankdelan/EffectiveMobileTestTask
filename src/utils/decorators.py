@@ -11,6 +11,6 @@ def choice_decorator(menu: Callable):
                 print("Некорректный ввод. Пожалуйста, введите целое число.")
                 return
             else:
-                func(choice, *args, **kwargs)
+                return func(choice, *args, **kwargs)
         return wrapper
     return decorator_func

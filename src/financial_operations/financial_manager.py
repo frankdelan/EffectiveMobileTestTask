@@ -11,7 +11,7 @@ class FinancialManager:
         Статический метод выводящий в консоль баланс пользователя.
         Возвращает None.
         """
-        balance: float = CSVController.get_user_balance()
+        balance: int = CSVController.get_user_balance()
         print(f'Текущий баланс: {balance}')
 
     @staticmethod

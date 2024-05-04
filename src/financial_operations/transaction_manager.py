@@ -137,16 +137,17 @@ class TransactionHandler:
         """
         print('Введите новые данные')
         Menu.transaction_data_formats()
-        new_data: str = input()
+        new_data: str= input()
 
         validator = TransactionHandler.field_validators.get(field_number)
-        valid_data = validator(new_data)
+        valid_data: str | None = validator(new_data)
 
         if valid_data:
             try:
                 CSVController.update_csv_cell(row_number, field_number, valid_data)
             except Exception as e:
                 print(f'Произошла ошибка - {e}')
+                return
             else:
                 print('Запись успешна изменена!')
         else:
