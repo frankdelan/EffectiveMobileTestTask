@@ -1,7 +1,7 @@
-from src.utils.file_operations import CSVController
-from src.financial_operations.transaction_manager import TransactionHandler
-from src.interface.menus import Menu
-from src.utils.decorators import choice_decorator
+from utils.file_operations import CSVController
+from financial_operations.transaction_manager import TransactionHandler
+from interface.menus import Menu
+from utils.decorators import choice_decorator
 
 
 class FinancialManager:

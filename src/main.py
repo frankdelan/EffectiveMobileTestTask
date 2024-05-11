@@ -1,4 +1,4 @@
-from src.financial_operations.financial_manager import FinancialManager
+from financial_operations.financial_manager import FinancialManager
 from utils.decorators import choice_decorator
 from interface.menus import Menu
 

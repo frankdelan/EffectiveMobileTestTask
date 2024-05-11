@@ -1,7 +1,7 @@
 import csv
-
+from config import DATABASE_PATH
 # working directory - /src/
-FILEPATH: str = 'history.csv'
+FILEPATH: str = DATABASE_PATH
 
 
 class CSVController:

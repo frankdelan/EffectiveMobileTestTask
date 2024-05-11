@@ -1,8 +1,8 @@
 from datetime import datetime
 
-from src.utils.file_operations import CSVController
-from src.interface.menus import Menu
-from src.utils.decorators import choice_decorator
+from utils.file_operations import CSVController
+from interface.menus import Menu
+from utils.decorators import choice_decorator
 
 
 class TransactionInputValidator:
@@ -137,7 +137,7 @@ class TransactionHandler:
         """
         print('Введите новые данные')
         Menu.transaction_data_formats()
-        new_data: str= input()
+        new_data: str = input()
 
         validator = TransactionHandler.field_validators.get(field_number)
         valid_data: str | None = validator(new_data)
